@@ -1,1 +1,3 @@
-print('Hello Data Structure')
+import datetime
+
+print(datetime.datetime.now())
