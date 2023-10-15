@@ -1,0 +1,51 @@
+<!DOCTYPE html> 
+<html> 
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title> Login Page </title>
+</head>  
+<body>  
+    <center> <h1> Student Login Form </h1> </center> 
+    <div class="container"> 
+        <label>Username : </label> 
+        <input placeholder="Enter Username" id="username"><br>
+        <label>Password : </label> 
+        <input placeholder="Enter Password" id="password"><br>
+        <button onclick="myFunction()">Login</button>
+        <h2 id="failed"></h2>
+    </div>
+<script>
+    function myFunction() {
+        const url = 'https://api.stage.rigelclosets.com/auth/email/login';
+        const data = {email: document.getElementById("username").value, password: document.getElementById("password").value};
+        fetch(
+            url,
+            {
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data),
+                method: "POST"
+            }
+        )
+        .then(data => {
+            if (data.status === 400) {
+                document.getElementById("failed").innerHTML = 'Wrong credentials or User does not exist!!';
+                throw new Error('Wrong credentials or User does not exist!!');
+            }
+            return data.json()})
+        .then((json) => {
+            console.log(JSON.stringify(json))
+            let verify = false
+            if (json.hasOwnProperty('data', 'token')) { 
+                verify = true
+                console.log(json.data.token)
+            }
+            if (verify) {
+                var allInputs = document.querySelectorAll('input');
+                allInputs.forEach(singleInput => singleInput.value = '');
+                window.open('first.html', '_self')
+            }
+        });
+    }
+</script>
+</body>  
+</html>
