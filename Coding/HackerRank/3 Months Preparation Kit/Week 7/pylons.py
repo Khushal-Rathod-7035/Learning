@@ -17,7 +17,16 @@ import sys
 #
 
 def pylons(k, arr):
-    return
+    plants = 0
+    range_val = (k-1)*2 + 1
+    i = 0
+    while i < len(arr):
+        if arr[(i + range_val)-k] == 1:
+            plants += 1
+            i += range_val
+        else:
+            return -1
+    return plants
 
 
 if __name__ == '__main__':
